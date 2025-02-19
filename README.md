@@ -212,6 +212,14 @@ if date == md.error_string:
 
 ライブラリは、ファイルが見つからない場合や、無効な引数が提供された場合に例外を発生させます。
 
+## URL
+
+### pypi
+`https://pypi.org/project/photo-metadata/`
+
+### github
+`https://github.com/kingyo1205/photo-metadata`
+
 ## 注意点
 
 exiftoolが必ず必要です。
