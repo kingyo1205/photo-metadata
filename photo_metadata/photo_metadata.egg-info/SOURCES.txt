@@ -1,0 +1,10 @@
+README.md
+setup.py
+photo_metadata/__init__.py
+photo_metadata/exiftool_Japanese_tag.json
+photo_metadata/photo_metadata.py
+photo_metadata.egg-info/PKG-INFO
+photo_metadata.egg-info/SOURCES.txt
+photo_metadata.egg-info/dependency_links.txt
+photo_metadata.egg-info/requires.txt
+photo_metadata.egg-info/top_level.txt
