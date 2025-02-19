@@ -228,3 +228,16 @@ exiftoolが必ず必要です。
 ## ライセンス
 
 このプロジェクトはMITライセンスの下でライセンスされています。
+
+
+
+このライブラリは、画像やメタデータを処理する際に[ExifTool](https://exiftool.org/)を外部コマンドとして使用しています。
+
+## 必要なソフトウェア
+
+このライブラリを使用するには、ExifToolがシステムにインストールされている必要があります。ExifToolは[公式サイト](https://exiftool.org/)からダウンロードしてインストールしてください。
+
+## ライセンス
+
+このライブラリはMITライセンスの下で配布されています。ただし、ExifTool自体は[Artistic License 2.0](https://dev.perl.org/licenses/artistic.html)の下で配布されています。ExifToolを利用する場合は、そのライセンス条件を遵守してください。
+
