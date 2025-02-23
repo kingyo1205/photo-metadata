@@ -1,7 +1,8 @@
 Metadata-Version: 2.1
 Name: photo-metadata
-Version: 0.1.0
+Version: 0.1.2
 Summary: Photo Metadata library
+Home-page: https://github.com/kingyo1205/photo-metadata
 Classifier: License :: OSI Approved :: MIT License
 Description-Content-Type: text/markdown
 
@@ -43,7 +44,7 @@ metadata = Metadata(file_path="path/to/your/image.jpg", exiftool_path="path/to/e
 ```
 - `file_path` (str): 画像ファイルのパス
 - `exiftool_path` (str, optional): ExifTool実行ファイルのパス。デフォルトは`exiftool`
-- `japanese` (bool, optional): 日本語のタグを使用するかどうか。デフォルトは`True`
+- `japanese` (bool, optional): デフォルトは`True`
 
 #### 例外
 
@@ -219,8 +220,32 @@ if date == md.error_string:
 
 ライブラリは、ファイルが見つからない場合や、無効な引数が提供された場合に例外を発生させます。
 
+## URL
 
+### pypi
+`https://pypi.org/project/photo-metadata/`
+
+### github
+`https://github.com/kingyo1205/photo-metadata`
+
+## 注意点
+
+exiftoolが必ず必要です。
+作者はWindows 11, Python 3.10.11 で動作を確認しています。
 
 ## ライセンス
 
 このプロジェクトはMITライセンスの下でライセンスされています。
+
+
+
+このライブラリは、画像やメタデータを処理する際に[ExifTool](https://exiftool.org/)を外部コマンドとして使用しています。
+
+## 必要なソフトウェア
+
+このライブラリを使用するには、ExifToolがシステムにインストールされている必要があります。ExifToolは[公式サイト](https://exiftool.org/)からダウンロードしてインストールしてください。
+
+## ライセンス
+
+このライブラリはMITライセンスの下で配布されています。ただし、ExifTool自体は[Artistic License 2.0](https://dev.perl.org/licenses/artistic.html)の下で配布されています。ExifToolを利用する場合は、そのライセンス条件を遵守してください。
+

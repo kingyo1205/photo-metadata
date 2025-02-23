@@ -156,7 +156,7 @@ class Metadata:
             if self.japanese:
                 print("\n-----------エラー-----------")
                 print(f"ファイル: {self.file_path}")
-                print(f"標準エラー出力: {result.stderr}")
+                #print(f"標準エラー出力: {result.stderr}")
                 print(f"例外: {e}")
 
                 self.metadata = None
@@ -166,8 +166,8 @@ class Metadata:
             else:
                 print("\n-----------error-----------")
                 print(f"file: {self.file_path}")
-                print(f"stderr : {result.stderr}")
-                print(f"except : {e}")
+                #print(f"stderr : {result.stderr}")
+                print(f"exception: {e}")
 
                 self.metadata = None
 
@@ -192,7 +192,7 @@ class Metadata:
                     raise KeyError(f"見つかりませんでした: {key}")
                 else:
                     raise KeyError(f"not found: {key}")
-                
+    
     def __setitem__(self, key, value):
         if not isinstance(key, str):
             if self.japanese:
@@ -263,7 +263,7 @@ class Metadata:
                     print("Warning: This key is not deleted from self.metadata.")
                 
                 del self.metadata[key]
-                
+    
         
 
     def __str__(self) -> str:
@@ -398,6 +398,7 @@ class Metadata:
         finally:
             # 一時ファイルを削除
             os.unlink(temp_json.name)
+            
     
     def export_metadata(self, output_path: str = None, format: str = 'json', lang_ja_metadata: bool = True):
         
@@ -454,7 +455,7 @@ class Metadata:
             return coordinates
 
 
-    def get_date(self, format: str = '%Y:%m:%d %H:%M:%S'):
+    def get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+09:00'):
         if "EXIF:DateTimeOriginal" in self.metadata:
             date = self.metadata["EXIF:DateTimeOriginal"]
             date = datetime.datetime.strptime(date, '%Y:%m:%d %H:%M:%S').strftime(format)
@@ -469,7 +470,8 @@ class Metadata:
                 date = date.strftime(format)
             else:
                 dt = datetime.datetime.strptime(self.metadata["QuickTime:CreateDate"], '%Y:%m:%d %H:%M:%S')
-                tz = datetime.timedelta(hours=9)
+                tz = datetime.datetime.strptime(default_time_zone.replace("+", ""), "%H:%M")
+                tz = datetime.timedelta(hours=int(tz.strftime("%H")), minutes=int(tz.strftime("%M")))
                 date = dt + tz
                 date = date.strftime(format)
         else:
