@@ -1,4 +1,5 @@
-# photo-metadata
+# Photo Metadata
+Python library to read and write photo and video metadata (EXIF, IPTC, XMP) using exiftool.
   
 > 🗒️ このREADMEは **日本語と英語の両方** を含みます。
 > 📄 **This README includes both English and Japanese versions.**  
@@ -503,6 +504,7 @@ Please make sure ExifTool is installed on your system. You can download it from 
 > You must comply with ExifTool's license when using it.
 
 ---
+
 
 
 
