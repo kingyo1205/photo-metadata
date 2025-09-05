@@ -1,5 +1,7 @@
 # Photo Metadata
 Python library to read and write photo and video metadata (EXIF, IPTC, XMP) using exiftool.
+
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/photo-metadata?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/photo-metadata)
   
 > 🗒️ このREADMEは **日本語と英語の両方** を含みます。
 > 📄 **This README includes both English and Japanese versions.**  
@@ -504,6 +506,7 @@ Please make sure ExifTool is installed on your system. You can download it from 
 > You must comply with ExifTool's license when using it.
 
 ---
+
 
 
 
