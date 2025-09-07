@@ -17,7 +17,7 @@ _jp_tags_json_path = Path(os.path.join(os.path.dirname(__file__), r"exiftool_Jap
 key_map: dict | None = None
 
 
-def date_format(date_text: str, old_format: str, new_format: str):
+def date_format(date_text: str, old_format: str, new_format: str) -> str:
     return datetime.datetime.strptime(date_text, old_format).strftime(new_format)
 
 
@@ -85,7 +85,7 @@ def get_jp_tags_json_path() -> Path:
     global _jp_tags_json_path
     return Path(_jp_tags_json_path)
 
-def read_jp_tags_json():
+def read_jp_tags_json() -> None:
     global key_map
     if key_map is None:
         try:
@@ -102,7 +102,7 @@ def read_jp_tags_json():
 
     
 
-def get_key_map():
+def get_key_map() -> dict:
     global key_map
     read_jp_tags_json()
     return key_map
@@ -182,6 +182,8 @@ class Metadata:
     """
 
     error_string: str = "Error"
+
+    
     def __init__(self, file_path: str | Path):
 
         
@@ -271,13 +273,13 @@ class Metadata:
 
 
     
-    def __getitem__(self, key: str):
+    def __getitem__(self, key: str) -> Any:
         if key not in self.metadata:
             raise KeyError(f"not found: {key}")
         
         return self.metadata[key]
     
-    def __setitem__(self, key: str, value: str | int | float | bool):
+    def __setitem__(self, key: str, value: Any) -> None:
         if not isinstance(value, (str, int, float, bool)):
             raise TypeError(f"invalid type: {type(value)}")
         
@@ -290,14 +292,14 @@ class Metadata:
         
         del self.metadata[key]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return pprint.pformat(self.metadata)
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         
         return f"Metadata(file_path={self.file_path}, \nmetadata=\n{pprint.pformat(self.metadata)})"
     
-    def __eq__(self, other: "Metadata"):
+    def __eq__(self, other: "Metadata") -> bool:
         metadata_copy = self.metadata.copy()
         other_metadata_copy = other.metadata.copy()
         
@@ -319,7 +321,7 @@ class Metadata:
         
         return metadata_copy == other_metadata_copy
     
-    def __ne__(self, other: "Metadata"):
+    def __ne__(self, other: "Metadata") -> bool:
         metadata_copy = self.metadata.copy()
         other_metadata_copy = other.metadata.copy()
         
@@ -339,7 +341,20 @@ class Metadata:
         return not metadata_copy == other_metadata_copy
     
 
-    def write_metadata_to_file(self, file_path: str = None):
+    def write_metadata_to_file(self, file_path: str = None) -> None:
+        """
+        Write metadata to file.
+
+        Parameters
+        ----------
+        file_path : str, optional
+            File path, by default None
+
+        Returns
+        -------
+        None
+
+        """
         if file_path is None:
             file_path = self.file_path
 
@@ -352,6 +367,7 @@ class Metadata:
                 write_metadata[k] = v
         
         write_metadata["SourceFile"] = "*"
+        
 
         
 
@@ -402,7 +418,24 @@ class Metadata:
         return self.metadata.copy()
 
 
-    def export_metadata(self, output_path: str = None, format: Literal["json", "csv"] = 'json', lang_ja_metadata: bool = False):
+    def export_metadata(self, output_path: str = None, format: Literal["json", "csv"] = 'json', lang_ja_metadata: bool = False) -> None:
+        """
+        Export metadata to file.
+
+        Parameters
+        ----------
+        output_path : str, optional
+            Output path, by default None
+        format : str, optional
+            Output format, by default 'json'
+        lang_ja_metadata : bool, optional
+            Whether to use Japanese metadata, by default False
+
+        Returns
+        -------
+        None
+
+        """
         
         
         format = format.lower()
@@ -428,16 +461,16 @@ class Metadata:
             
             raise ValueError("argument format must be \"csv\" or \"json\"")
         
-    def keys(self):
+    def keys(self) -> list[str]:
         return list(self.metadata.keys()).copy()
         
-    def values(self):
+    def values(self) -> list[Any]:
         return list(self.metadata.values()).copy()
     
-    def items(self):
+    def items(self) -> list[tuple[str, Any]]:
         return list(self.metadata.items()).copy()
         
-    def get_gps_coordinates(self):
+    def get_gps_coordinates(self) -> str:
         degree_symbol = u"\u00B0"
         if "Composite:GPSLatitude" in self.metadata and "Composite:GPSLongitude" in self.metadata:
             location = f'{self.metadata["Composite:GPSLatitude"].replace("deg", degree_symbol).replace(" ", "")} {self.metadata["Composite:GPSLongitude"].replace("deg", degree_symbol).replace(" ", "")}'
@@ -445,7 +478,7 @@ class Metadata:
         else:
             return self.error_string
 
-    def export_gps_to_google_maps(self):
+    def export_gps_to_google_maps(self) -> str:
         coordinates = self.get_gps_coordinates()
         if coordinates != self.error_string:
             google_maps_url = f"https://www.google.com/maps/search/?api=1&query={coordinates}"
@@ -454,7 +487,7 @@ class Metadata:
             return coordinates
 
 
-    def get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+09:00'):
+    def get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+09:00') -> str:
         if "EXIF:DateTimeOriginal" in self.metadata:
             date = self.metadata["EXIF:DateTimeOriginal"]
             date = datetime.datetime.strptime(date, '%Y:%m:%d %H:%M:%S').strftime(format)
@@ -477,15 +510,16 @@ class Metadata:
             date = self.error_string
         return date
     
-    def get_image_dimensions(self):
+    def get_image_dimensions(self) -> str:
+
         if "Composite:ImageSize" in self.metadata:
             size = self.metadata["Composite:ImageSize"]
-            size_x, size_y = size.split("x")
+            return size
         else:
             return self.error_string
-        return size_x, size_y
+        
     
-    def get_file_size(self):
+    def get_file_size(self) -> tuple[str, int]:
 
         if self.file_path is None:
             
@@ -514,7 +548,7 @@ class Metadata:
     
     
 
-    def get_model_name(self):
+    def get_model_name(self) -> str:
         if "EXIF:Model" in self.metadata:
             model_name = self.metadata["EXIF:Model"]
         elif "XML:DeviceModelName" in self.metadata:
@@ -523,14 +557,14 @@ class Metadata:
             model_name = self.error_string
         return model_name
     
-    def get_lens_name(self):
+    def get_lens_name(self) -> str:
         if "EXIF:LensModel" in self.metadata:
             lens = self.metadata["EXIF:LensModel"]
         else:
             lens = self.error_string
         return lens
 
-    def get_focal_length(self):
+    def get_focal_length(self) -> dict:
         focal_length_dict = {}
         if "EXIF:FocalLength" in self.metadata:
             focal_length = self.metadata["EXIF:FocalLength"]
@@ -554,13 +588,22 @@ class Metadata:
         return focal_length_dict
     
 
-    def get_main_metadata(self):
+    def get_main_metadata(self) -> dict:
+        """
+        Get main metadata dictionary.
+
+        Returns
+        -------
+        dict
+            Main metadata dictionary.
+
+        """
 
         
         
         md_dict = {}
-        md_dict["File_Path"] = self.file_path
-        md_dict["File_Name"] = os.path.basename(self.file_path)
+        md_dict["File_Path"] = str(self.file_path)
+        md_dict["File_Name"] = os.path.basename(str(self.file_path))
         md_dict["Date"] = self.get_date()
         md_dict["Model_Name"] = self.get_model_name()
         md_dict["Lens_Name"] = self.get_lens_name()
@@ -588,17 +631,27 @@ class Metadata:
         return md_dict
     
 
-    def show(self):
+    def show(self) -> None:
+        """
+        Show file
+        """
         
         if not os.path.isfile(self.file_path):
             raise FileNotFoundError(f"file not found: {self.file_path}")
         
         os.startfile(str(self.file_path))
 
-    def copy(self):
+    def copy(self) -> "Metadata":
+        """
+        Create a copy of the current Metadata instance.
+        """
         return copy.deepcopy(self)
     
     def contains_key(self, key, exact_match: bool = True):
+        """
+        Check if a key exists in the metadata.
+
+        """
         if exact_match:
             return key in self.metadata
         else:
@@ -612,6 +665,10 @@ class Metadata:
 
     
     def contains_value(self, value, exact_match: bool = True):
+        """
+        Check if a value exists in the metadata.
+
+        """""
         if exact_match:
             return value in self.metadata.values()
         else:
@@ -630,6 +687,7 @@ class Metadata:
         file_path_list: list[str],
         progress_func: Callable[[int], None] | None = None,
         max_workers: int = 40
+        
     ) -> dict[str, "Metadata"]:
         """
         Load metadata from multiple file paths in parallel.
@@ -707,7 +765,7 @@ class MetadataBatchProcess:
             max_workers=max_workers
         )
 
-    def filter_by_custom_condition(self, condition_func: Callable[[Metadata], bool]):
+    def filter_by_custom_condition(self, condition_func: Callable[[Metadata], bool]) -> None:
         """
         Filter files using a custom condition function.
 
@@ -727,7 +785,7 @@ class MetadataBatchProcess:
 
     def filter_by_metadata(self, keyword_list: list[str], exact_match: bool,
                            all_keys_match: bool,
-                           search_by: Literal["either", "value", "key"],):
+                           search_by: Literal["either", "value", "key"]) -> None:
         """
         Filter files by matching keywords in metadata keys/values.
 
@@ -763,7 +821,7 @@ class MetadataBatchProcess:
         self.metadata_objects = filtered_objects
         self.file_list = filtered_files
 
-    def prepare_rename(self, format_func: Callable[[Metadata], str]):
+    def prepare_rename(self, format_func: Callable[[Metadata], str]) -> None:
         """
         Prepare file rename dictionary using a formatting function.
 
@@ -820,6 +878,7 @@ class MetadataBatchProcess:
             except Exception as e:
                 error_files[file] = "Error"
                 print(e)
+                
 
         base_name_dict = dict(sorted(base_name_dict.items()))
         base_name_dict = add_duplicate_sequence_number(base_name_dict)
