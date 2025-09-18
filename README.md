@@ -275,9 +275,14 @@ ExifTool must be installed on your system. Download it from the [official websit
 
 This library is distributed under the MIT License. ExifTool itself is distributed under the [Artistic License 2.0](https://dev.perl.org/licenses/artistic.html). Please comply with the license when using ExifTool.
 
-This project uses [chardet](https://pypi.org/project/chardet/), 
-which is licensed under the GNU LGPL v2.1.
-See: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+## License Information
+
+- This project is released under the MIT License.  
+- The following third-party libraries are used:  
+  - chardet (LGPL v2.1)  
+    - https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+  - tqdm (MIT License)  
+    - https://github.com/tqdm/tqdm/blob/master/LICENSE
 ---
 
 
@@ -577,12 +582,14 @@ exiftoolが必ず必要です。
 
 このライブラリはMITライセンスの下で配布されています。ただし、ExifTool自体は[Artistic License 2.0](https://dev.perl.org/licenses/artistic.html)の下で配布されています。ExifToolを利用する場合は、そのライセンス条件を遵守してください。
 
-このプロジェクトは [chardet](https://pypi.org/project/chardet/) を利用しています。  
-chardet は GNU LGPL v2.1 ライセンスの下で配布されています。  
-ライセンス全文は以下をご覧ください:  
-https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+- 以下のサードパーティライブラリを利用しています:  
+  - chardet (LGPL v2.1)  
+    - https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+  - tqdm (MIT License)  
+    - https://github.com/tqdm/tqdm/blob/master/LICENSE
 
 ---
+
 
 
 
