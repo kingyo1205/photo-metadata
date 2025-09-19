@@ -282,7 +282,7 @@ This library is distributed under the MIT License. ExifTool itself is distribute
   - chardet (LGPL v2.1)  
     - https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
   - tqdm (MIT License)  
-    - https://github.com/tqdm/tqdm/blob/master/LICENCE
+    - https://github.com/tqdm/tqdm?tab=License-1-ov-file
 ---
 
 
@@ -586,9 +586,10 @@ exiftoolが必ず必要です。
   - chardet (LGPL v2.1)  
     - https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
   - tqdm (MIT License)  
-    - https://github.com/tqdm/tqdm/blob/master/LICENCE
+    - https://github.com/tqdm/tqdm?tab=License-1-ov-file
 
 ---
+
 
 
 
