@@ -225,7 +225,7 @@ class Metadata:
         self.metadata["SourceFile"] = str(file_path)
 
 
-    def display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> str:
+    def display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> dict | str | None:
         """
         Display metadata in Japanese
 
@@ -233,9 +233,7 @@ class Metadata:
         
         Parameters
         ----------
-        return_type : str, optional
-            Return type, by default "print"
-            'str' or 'print' or 'dict'
+        return_type : str, dict, None
 
         
 
@@ -892,6 +890,9 @@ class MetadataBatchProcess:
 
             if "<RN>" in new_name:
                 new_name = new_name.replace("<RN>", str(dup_num).zfill(count_digit))
+            
+            if ("<RN>" not in base_name) and ("連番" not in base_name):
+                raise ValueError("NUMBER or DUP_SEQ_1_DIGIT or DUP_SEQ_2_DIGIT or DUP_SEQ_3_DIGIT or DUP_SEQ_4_DIGIT not in format string")
 
             if os.path.basename(file_path) != new_name:
                 while new_name in not_selected_files:
