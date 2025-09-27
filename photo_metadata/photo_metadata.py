@@ -5,7 +5,7 @@ from tqdm import tqdm
 from uuid import uuid4
 import sys
 from pathlib import Path
-import chardet
+from charset_normalizer import from_bytes
 
 
 
@@ -15,6 +15,20 @@ _exiftool_path = Path(r"exiftool")
 _jp_tags_json_path = Path(os.path.join(os.path.dirname(__file__), r"exiftool_Japanese_tag.json"))
 
 key_map: dict | None = None
+
+
+def _detect_encoding(data: bytes) -> str:
+    
+    if not data:
+        return None
+    try:
+        results = from_bytes(data)
+        best = results.best()
+        if best and best.encoding:
+            return best.encoding
+    except Exception:
+        pass
+    return None
 
 
 def date_format(date_text: str, old_format: str, new_format: str) -> str:
@@ -211,11 +225,18 @@ class Metadata:
         else:
             result = subprocess.run(command_exiftool_text, stderr=subprocess.PIPE, stdout=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW)
         
+        
+        # stdout / stderr のどちらかからエンコーディングを推定
+        encoding = (
+            _detect_encoding(result.stdout)
+            or _detect_encoding(result.stderr)
+            or "utf-8"
+        )
 
-        encoding = chardet.detect(result.stdout)["encoding"] or chardet.detect(result.stderr)["encoding"] or "utf-8"
-
+        # 推定したエンコーディングでデコード
         stdout_text = result.stdout.decode(encoding, errors="replace")
         stderr_text = result.stderr.decode(encoding, errors="replace")
+        
 
         
         if result.returncode != 0:
@@ -384,17 +405,23 @@ class Metadata:
             else:
                 result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW)
 
-            encoding = chardet.detect(result.stdout)["encoding"] or chardet.detect(result.stderr)["encoding"] or "utf-8"
+            # stdout / stderr のどちらかからエンコーディングを推定
+            encoding = (
+                _detect_encoding(result.stdout)
+                or _detect_encoding(result.stderr)
+                or "utf-8"
+            )
+
+            # 推定したエンコーディングでデコード
+            stdout_text = result.stdout.decode(encoding, errors="replace")
+            stderr_text = result.stderr.decode(encoding, errors="replace")
             
-            text_stdout = result.stdout.decode(encoding, errors="replace")
-            text_stderr = result.stderr.decode(encoding, errors="replace")
-            
-            print(f"exiftool standard output: {text_stdout}")
-            print(f"exiftool standard error: {text_stderr}")
+            print(f"exiftool standard output: {stdout_text}")
+            print(f"exiftool standard error: {stderr_text}")
 
             
             if result.returncode != 0:
-                raise RuntimeError(f"Failed to write metadata. Error: {text_stdout}\n{text_stderr}")
+                raise RuntimeError(f"Failed to write metadata. Error: {stdout_text}\n{stderr_text}")
 
             
             
@@ -402,6 +429,8 @@ class Metadata:
         finally:
             # 一時ファイルを削除
             os.unlink(temp_json.name)
+
+        
 
     def get_metadata_dict(self) -> dict:
         """
