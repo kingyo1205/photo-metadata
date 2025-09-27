@@ -30,9 +30,9 @@ pip install photo-metadata
 
 ## Dependencies
 
-* \[ExifTool] (needs to be installed separately; either add to PATH or provide full path)
-* \[tqdm] (automatically installed via pip; used for progress display)
-* \[chardet] (automatically installed via pip; used for encoding detection)
+- [ExifTool] (needs to be installed separately; either add to PATH or provide full path)
+- [tqdm] (automatically installed via pip; used for progress display)
+- [charset-normalizer] (automatically installed via pip; used for encoding detection)
 
 ---
 
@@ -275,15 +275,14 @@ ExifTool must be installed on your system. Download it from the [official websit
 
 This library is distributed under the MIT License. ExifTool itself is distributed under the [Artistic License 2.0](https://dev.perl.org/licenses/artistic.html). Please comply with the license when using ExifTool.
 
-## License Information
 
-- This project is released under the MIT License.  
 - The following third-party libraries are used:  
-  - chardet (LGPL v2.1)  
-    - https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+  - charset_normalizer (MIT License)  
+    - https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file  
   - tqdm (MIT License)  
-    - https://github.com/tqdm/tqdm?tab=License-1-ov-file
----
+    - https://github.com/tqdm/tqdm?tab=License-1-ov-file  
+
+- Since version 0.2.3, the dependency has been changed from **chardet** (LGPL v2.1) to **charset-normalizer** (MIT).
 
 
 # Photo Metadata README 日本語版
@@ -312,7 +311,7 @@ This library is distributed under the MIT License. ExifTool itself is distribute
 
 - [exiftool] (別途インストールが必要です。　パスを通すかフルパスを指定してください)
 - [tqdm] (pipで自動でインストールされます。進捗表示用です)
-- [chardet] (pipで自動でインストールされます。 エンコーディング解析用です)
+- [charset-normalizer] (pipで自動でインストールされます。 エンコーディング解析用です)
 
 
 
@@ -583,13 +582,12 @@ exiftoolが必ず必要です。
 このライブラリはMITライセンスの下で配布されています。ただし、ExifTool自体は[Artistic License 2.0](https://dev.perl.org/licenses/artistic.html)の下で配布されています。ExifToolを利用する場合は、そのライセンス条件を遵守してください。
 
 - 以下のサードパーティライブラリを利用しています:  
-  - chardet (LGPL v2.1)  
-    - https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+  - charset_normalizer (MIT License)
+    - https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file
   - tqdm (MIT License)  
     - https://github.com/tqdm/tqdm?tab=License-1-ov-file
-
+- バージョン0.2.3から依存ライブラリを chardet (LGPL v2.1) から charset-normalizer (MIT) に変更
 ---
-
 
 
 
