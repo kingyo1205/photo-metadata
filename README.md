@@ -1,15 +1,21 @@
 # photo-metadata
+
+Python library to extract, read, modify, and write photo and video metadata (EXIF, IPTC, XMP) using ExifTool. Supports JPEG, RAW, and video files. 
+
+---
   
 > 🗒️ このREADMEは **日本語と英語の両方** を含みます。
 > 📄 **This README includes both English and Japanese versions.**  
 > 📘 **English** section is available below: [Go to English version](#photo-metadata-readme-english)  
 > 📕 **日本語** セクションはこちらからどうぞ: [日本語版へ移動](#photo-metadata-readme-日本語版)
 
-[![PyPI Downloads](https://static.pepy.tech/personalized-badge/photo-metadata?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/photo-metadata)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/photo-metadata?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/photo-metadata)  
+
+---
 
 # Photo Metadata README (English)
 
----
+
 
 `photo-metadata` is a Python library for extracting, manipulating, and writing metadata from photo and video files. It uses ExifTool as a backend and supports a wide range of image and video formats. Full support for Japanese tags is also provided.
 
@@ -273,22 +279,28 @@ ExifTool must be installed on your system. Download it from the [official websit
 
 ## License
 
-This library is distributed under the MIT License. ExifTool itself is distributed under the [Artistic License 2.0](https://dev.perl.org/licenses/artistic.html). Please comply with the license when using ExifTool.
+This library is distributed under the MIT License.  
+However, ExifTool itself is distributed under the [Artistic License 2.0](https://dev.perl.org/licenses/artistic.html).  
+If you use ExifTool, please make sure to comply with its license terms.
 
+### Dependencies and Licenses
 
-- The following third-party libraries are used:  
-  - charset_normalizer (MIT License)  
-    - https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file  
-  - tqdm (MIT License)  
-    - https://github.com/tqdm/tqdm?tab=License-1-ov-file  
+(Verified in 2025 / Based on information listed on PyPI)
 
-- Since version 0.2.3, the dependency has been changed from **chardet** (LGPL v2.1) to **charset-normalizer** (MIT).
+| Library                                                           | License | License Text |
+| ----------------------------------------------------------------- | -------- | ------------- |
+| [charset_normalizer](https://pypi.org/project/charset-normalizer/) | MIT      | https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file |
+| [tqdm](https://pypi.org/project/tqdm/)                             | MIT      | https://github.com/tqdm/tqdm?tab=License-1-ov-file |
+
+- Starting from version **0.2.3**, the dependency was changed from **chardet** (LGPL v2.1) to **charset-normalizer** (MIT).
+
+---
 
 
 # Photo Metadata README 日本語版
 
 
----
+
 
 
 `photo-metadata`は、写真や動画ファイルからメタデータを抽出、操作、書き込みを行うためのPythonライブラリです。exiftoolをバックエンドで使用し、幅広い画像、動画フォーマットに対応しています。日本語タグのサポートも特徴です。
@@ -581,11 +593,18 @@ exiftoolが必ず必要です。
 
 このライブラリはMITライセンスの下で配布されています。ただし、ExifTool自体は[Artistic License 2.0](https://dev.perl.org/licenses/artistic.html)の下で配布されています。ExifToolを利用する場合は、そのライセンス条件を遵守してください。
 
-- 以下のサードパーティライブラリを利用しています:  
-  - charset_normalizer (MIT License)
-    - https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file
-  - tqdm (MIT License)  
-    - https://github.com/tqdm/tqdm?tab=License-1-ov-file
+
+### 依存ライブラリとライセンス
+
+（2025年確認 / PyPI 記載情報）
+
+| ライブラリ                                                          | ライセンス | ライセンス文 |
+| ------------------------------------------------------------------ | --------- | ------ |
+| [charset_normalizer](https://pypi.org/project/charset-normalizer/) | MIT       | https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file |
+| [tqdm](https://pypi.org/project/tqdm/)                             | MIT       | https://github.com/tqdm/tqdm?tab=License-1-ov-file |
+
+
+
 - バージョン0.2.3から依存ライブラリを chardet (LGPL v2.1) から charset-normalizer (MIT) に変更
 ---
 
