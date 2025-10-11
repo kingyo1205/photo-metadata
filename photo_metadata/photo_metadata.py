@@ -12,7 +12,7 @@ from charset_normalizer import from_bytes
 
 
 _exiftool_path = Path(r"exiftool")
-_jp_tags_json_path = Path(os.path.join(os.path.dirname(__file__), r"exiftool_Japanese_tag.json"))
+_jp_tags_json_path = Path(os.path.join(os.path.dirname(__file__), r"exiftool_japanese_tag.json"))
 
 key_map: dict | None = None
 
@@ -106,10 +106,9 @@ def read_jp_tags_json() -> None:
             if not os.path.exists(_jp_tags_json_path):
                 raise FileNotFoundError(f"{_jp_tags_json_path} が存在しません")
             with open(_jp_tags_json_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                key_map = data.get("exiftool", {})
-                if not isinstance(key_map, dict):
-                    raise ValueError("'exiftool' は dict である必要があります")
+                key_map = json.load(f)
+
+                
         except Exception as e:
             print("タグマップ読み込みに失敗:", e)
             key_map = {}
