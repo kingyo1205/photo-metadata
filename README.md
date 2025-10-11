@@ -313,10 +313,6 @@ If you use ExifTool, please make sure to comply with its license terms.
 
 # Photo Metadata README 日本語版
 
-
-
-
-
 `photo-metadata`は、写真や動画ファイルからメタデータを抽出、操作、書き込みを行うためのPythonライブラリです。exiftoolをバックエンドで使用し、幅広い画像、動画フォーマットに対応しています。日本語タグのサポートも特徴です。
 
 ## 主な機能
@@ -328,11 +324,14 @@ If you use ExifTool, please make sure to comply with its license terms.
 - 複数のファイルをメタデータでフィルター
 - 複数のファイルを撮影日時などでリネーム
 
+---
 
 ## 対応OS
 
 - **Windows**
 - **Linux**
+
+---
 
 ## インストール
 
@@ -357,6 +356,8 @@ photo_metadata.set_exiftool_path(exiftool_path)
 ```
 
 ### exiftool_pathのデフォルトは"exiftool"です。　パスが通っている場合は　set_exiftool_path　を実行する必要はありません。
+
+---
 
 ## Metadataクラス
 
@@ -589,8 +590,6 @@ if date == md.error_string:
 ---
 
 
-
-
 ## URL
 
 ### pypi
@@ -599,15 +598,21 @@ if date == md.error_string:
 ### github
 `https://github.com/kingyo1205/photo-metadata`
 
+---
+
 ## 注意点
 
 exiftoolが必ず必要です。
 
 このライブラリは、画像やメタデータを処理する際に[ExifTool](https://exiftool.org/)を外部コマンドとして使用しています。
 
+---
+
 ## 必要なソフトウェア
 
 このライブラリを使用するには、ExifToolがシステムにインストールされている必要があります。ExifToolは[公式サイト](https://exiftool.org/)からダウンロードしてインストールしてください。
+
+---
 
 ## ライセンス
 
@@ -626,9 +631,8 @@ exiftoolが必ず必要です。
 
 
 - バージョン0.2.3から依存ライブラリを chardet (LGPL v2.1) から charset-normalizer (MIT) に変更
+---  
+
+
 ---
-
-
-
-
 
