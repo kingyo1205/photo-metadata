@@ -2,6 +2,9 @@
 
 Python library to extract, read, modify, and write photo and video metadata (EXIF, IPTC, XMP) using ExifTool. Supports JPEG, RAW, and video files. 
 
+
+---
+
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/photo-metadata?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/photo-metadata)  
 
 ---
@@ -29,6 +32,15 @@ Python library to extract, read, modify, and write photo and video metadata (EXI
 * Compare two `Metadata` objects
 * Filter multiple files by metadata
 * Rename multiple files based on capture date or other metadata
+
+---
+
+## Supported OS
+
+- **Windows**
+- **Linux**
+
+---
 
 ## Installation
 
@@ -316,6 +328,12 @@ If you use ExifTool, please make sure to comply with its license terms.
 - 複数のファイルをメタデータでフィルター
 - 複数のファイルを撮影日時などでリネーム
 
+
+## 対応OS
+
+- **Windows**
+- **Linux**
+
 ## インストール
 
 
@@ -327,7 +345,7 @@ If you use ExifTool, please make sure to comply with its license terms.
 - [tqdm] (pipで自動でインストールされます。進捗表示用です)
 - [charset-normalizer] (pipで自動でインストールされます。 エンコーディング解析用です)
 
-
+---
 
 ## exiftoolを設定
 
