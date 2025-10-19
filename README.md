@@ -301,12 +301,10 @@ If you use ExifTool, please make sure to comply with its license terms.
 
 (Verified in 2025 / Based on information listed on PyPI)
 
-| Library                                                           | License | License Text |
-| ----------------------------------------------------------------- | -------- | ------------- |
-| [charset_normalizer](https://pypi.org/project/charset-normalizer/) | MIT      | https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file |
-| [tqdm](https://pypi.org/project/tqdm/)                             | MIT      | https://github.com/tqdm/tqdm?tab=License-1-ov-file |
-
-- Starting from version **0.2.3**, the dependency was changed from **chardet** (LGPL v2.1) to **charset-normalizer** (MIT).
+| Library                                                            | License |
+| -----------------------------------------------------------------  | -------- |
+| [charset_normalizer](https://pypi.org/project/charset-normalizer/) | MIT      |
+| [tqdm](https://pypi.org/project/tqdm/)                             | MIT      |
 
 ---
 
@@ -623,16 +621,10 @@ exiftoolが必ず必要です。
 
 （2025年確認 / PyPI 記載情報）
 
-| ライブラリ                                                          | ライセンス | ライセンス文 |
-| ------------------------------------------------------------------ | --------- | ------ |
-| [charset_normalizer](https://pypi.org/project/charset-normalizer/) | MIT       | https://github.com/jawah/charset_normalizer?tab=MIT-1-ov-file |
-| [tqdm](https://pypi.org/project/tqdm/)                             | MIT       | https://github.com/tqdm/tqdm?tab=License-1-ov-file |
-
-
-
-- バージョン0.2.3から依存ライブラリを chardet (LGPL v2.1) から charset-normalizer (MIT) に変更
----  
-
+| ライブラリ                                                          | ライセンス |
+| ------------------------------------------------------------------ | --------- |
+| [charset_normalizer](https://pypi.org/project/charset-normalizer/) | MIT       |
+| [tqdm](https://pypi.org/project/tqdm/)                             | MIT       |
 
 ---
 
