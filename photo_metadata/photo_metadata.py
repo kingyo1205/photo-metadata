@@ -1,4 +1,4 @@
-import datetime, subprocess,concurrent.futures, os, json, pprint, csv, glob, re, copy, collections, tempfile
+import datetime, subprocess,concurrent.futures, os, json, csv, glob, re, copy, collections, tempfile
 
 from typing import Callable, Literal, Any
 from tqdm import tqdm
@@ -279,11 +279,12 @@ class Metadata:
                     m[key] = value
 
         if return_type == "str":
-            return pprint.pformat(m)
+            return json.dumps(m, indent=4, ensure_ascii=False)
         elif return_type == "print":
-            return pprint.pprint(m)
+            return print(json.dumps(m, indent=4, ensure_ascii=False))
+            
         elif return_type == "dict":
-            return m
+            return copy.deepcopy(m)
         else:
             raise TypeError(f"invalid return_type: {return_type}")
     
@@ -311,11 +312,11 @@ class Metadata:
         del self.metadata[key]
 
     def __str__(self) -> str:
-        return pprint.pformat(self.metadata)
+        return json.dumps(self.metadata, indent=4, ensure_ascii=False)
     
     def __repr__(self) -> str:
         
-        return f"Metadata(file_path={self.file_path}, \nmetadata=\n{pprint.pformat(self.metadata)})"
+        return f"Metadata(file_path={self.file_path}, \nmetadata=\n{json.dumps(self.metadata, indent=4, ensure_ascii=False)})"
     
     def __eq__(self, other: "Metadata") -> bool:
         metadata_copy = self.metadata.copy()
@@ -488,13 +489,13 @@ class Metadata:
             raise ValueError("argument format must be \"csv\" or \"json\"")
         
     def keys(self) -> list[str]:
-        return list(self.metadata.keys()).copy()
+        return copy.deepcopy(list(self.metadata.keys()))
         
     def values(self) -> list[Any]:
-        return list(self.metadata.values()).copy()
+        return copy.deepcopy(list(self.metadata.values()))
     
     def items(self) -> list[tuple[str, Any]]:
-        return list(self.metadata.items()).copy()
+        return copy.deepcopy(list(self.metadata.items()))
         
     def get_gps_coordinates(self) -> str:
         degree_symbol = u"\u00B0"
