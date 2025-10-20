@@ -514,28 +514,42 @@ class Metadata:
             return coordinates
 
 
-    def get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+09:00') -> str:
-        if "EXIF:DateTimeOriginal" in self.metadata:
-            date = self.metadata["EXIF:DateTimeOriginal"]
-            date = datetime.datetime.strptime(date, '%Y:%m:%d %H:%M:%S').strftime(format)
-        elif "QuickTime:CreateDate" in self.metadata:
-            if self.metadata["QuickTime:CreateDate"] == "0000:00:00 00:00:00":
-                return self.error_string
-            if "QuickTime:TimeZone" in self.metadata:
-                dt = datetime.datetime.strptime(self.metadata["QuickTime:CreateDate"], '%Y:%m:%d %H:%M:%S')
-                tz = datetime.datetime.strptime(self.metadata["QuickTime:TimeZone"].replace("+", ""), "%H:%M")
-                tz = datetime.timedelta(hours=int(tz.strftime("%H")), minutes=int(tz.strftime("%M")))
-                date = dt + tz
-                date = date.strftime(format)
-            else:
-                dt = datetime.datetime.strptime(self.metadata["QuickTime:CreateDate"], '%Y:%m:%d %H:%M:%S')
-                tz = datetime.datetime.strptime(default_time_zone.replace("+", ""), "%H:%M")
-                tz = datetime.timedelta(hours=int(tz.strftime("%H")), minutes=int(tz.strftime("%M")))
-                date = dt + tz
-                date = date.strftime(format)
-        else:
-            date = self.error_string
-        return date
+    def get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+00:00') -> str:
+        
+        
+        date_tags = [
+            "EXIF:DateTimeOriginal", 
+            "QuickTime:MediaCreateDate", 
+            "QuickTime:CreationDate", 
+            "XMP:DateCreated", 
+            "RIFF:DateTimeOriginal"
+        ]
+
+        for tag in date_tags:
+            if tag in self.metadata and self.metadata[tag] not in ("", "0000:00:00 00:00:00"):
+                raw_date = self.metadata[tag]
+                try:
+                    # QuickTime
+                    if tag.startswith("QuickTime:"):
+                        tz_offset = self.metadata.get("QuickTime:TimeZone", default_time_zone)
+                        
+                        tz_offset = tz_offset.replace("Z", "+00:00").replace("+", "")
+                        tz_dt = datetime.datetime.strptime(tz_offset, "%H:%M")
+                        tz = datetime.timedelta(hours=int(tz_dt.strftime("%H")), minutes=int(tz_dt.strftime("%M")))
+
+                        dt = datetime.datetime.strptime(raw_date, '%Y:%m:%d %H:%M:%S')
+                        dt = dt + tz
+                        return dt.strftime(format)
+
+                    # EXIF/XMP/RIFF
+                    dt = datetime.datetime.strptime(raw_date, '%Y:%m:%d %H:%M:%S')
+                    return dt.strftime(format)
+
+                except Exception:
+                    continue
+
+        # 撮影日時が見つからない場合
+        return self.error_string
     
     def get_image_dimensions(self) -> str:
 
@@ -615,9 +629,17 @@ class Metadata:
         return focal_length_dict
     
 
-    def get_main_metadata(self) -> dict:
+    def get_main_metadata(self, get_date_format: str = '%Y:%m:%d %H:%M:%S', get_date_default_time_zone: str = '+00:00') -> dict:
         """
         Get main metadata dictionary.
+
+        Parameters
+        ----------
+        get_date_format : str
+            Date format for self.get_date().
+
+        get_date_default_time_zone : str
+            Default time zone for self.get_date().
 
         Returns
         -------
@@ -631,7 +653,7 @@ class Metadata:
         md_dict = {}
         md_dict["File_Path"] = str(self.file_path)
         md_dict["File_Name"] = os.path.basename(str(self.file_path))
-        md_dict["Date"] = self.get_date()
+        md_dict["Date"] = self.get_date(format=get_date_format, default_time_zone=get_date_default_time_zone)
         md_dict["Model_Name"] = self.get_model_name()
         md_dict["Lens_Name"] = self.get_lens_name()
         for key in ["FNumber", "ExposureTime", "ISO"]:
