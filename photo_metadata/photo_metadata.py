@@ -327,12 +327,12 @@ class Metadata:
 
         for key, value in metadata_copy.copy().items():
 
-            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool" or key.split(":")[0] == "original_of_this_lib":
+            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del metadata_copy[key]
         
         for key, value in other_metadata_copy.copy().items():
 
-            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool" or key.split(":")[0] == "original_of_this_lib":
+            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del other_metadata_copy[key]
 
         
@@ -349,12 +349,12 @@ class Metadata:
 
         for key, value in metadata_copy.copy().items():
 
-            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool" or key.split(":")[0] == "original_of_this_lib":
+            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del metadata_copy[key]
         
         for key, value in other_metadata_copy.copy().items():
 
-            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool" or key.split(":")[0] == "original_of_this_lib":
+            if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del other_metadata_copy[key]
         
         return not metadata_copy == other_metadata_copy
@@ -381,9 +381,7 @@ class Metadata:
 
         write_metadata = {}
 
-        for k, v in self.metadata.items():
-            if k.split(":")[0] != "original_of_this_lib":
-                write_metadata[k] = v
+        
         
         write_metadata["SourceFile"] = "*"
         
