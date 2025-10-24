@@ -379,7 +379,7 @@ class Metadata:
 
         print(file_path)
 
-        write_metadata = {}
+        write_metadata = self.metadata.copy()
 
         
         
