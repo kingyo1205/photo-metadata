@@ -223,51 +223,74 @@ mbp.rename_files()
 
 ## API Reference
 
-### photo\_metadata Module
+### photo_metadata
 
-* `get_key_map() -> dict`: Returns the dictionary for Japanese tag conversion
-* `set_exiftool_path(exiftool_path: str | Path) -> None`: Set the path to ExifTool
-* `get_exiftool_path() -> Path`: Get the current ExifTool path
-* `set_jp_tags_json_path(jp_tags_json_path: str | Path) -> None`: Set the path to the Japanese tags JSON file
-* `get_jp_tags_json_path() -> Path`: Get the path to the Japanese tags JSON file
-* `key_en_to_ja(key_en: str) -> str`: Convert English key to Japanese
-* `key_ja_to_en(key_ja: str) -> str`: Convert Japanese key to English
+* `get_key_map() -> dict`: Returns a dictionary for Japanese key conversion.
+* `set_exiftool_path(exiftool_path: str | Path) -> None`: Sets the path to exiftool.
+* `get_exiftool_path() -> Path`: Returns the configured path to exiftool.
+* `set_jp_tags_json_path(jp_tags_json_path: str | Path) -> None`: Sets the path to the Japanese tags JSON file.
+* `get_jp_tags_json_path() -> Path`: Returns the configured path to the Japanese tags JSON file.
+* `key_en_to_ja(key_en: str) -> str`: Converts an English key to its Japanese equivalent.
+* `key_ja_to_en(key_ja: str) -> str`: Converts a Japanese key to its English equivalent.
 
-### Metadata Class
+### photo_metadata.Metadata
 
-* `__init__(self, file_path: str | Path)`
-* `display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> str`
-* `write_metadata_to_file(self, file_path: str = None) -> None`
-* `get_metadata_dict(self) -> dict`
-* `export_metadata(self, output_path: str = None, format: Literal["json", "csv"] = 'json', lang_ja_metadata: bool = False) -> None`
-* `keys(self) -> list[str]`
-* `values(self) -> list[Any]`
-* `items(self) -> list[tuple[str, Any]]`
-* `get_gps_coordinates(self) -> str`
-* `export_gps_to_google_maps(self) -> str`
-* `get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+00:00') -> str`
-* `get_image_dimensions(self) -> str`
-* `get_file_size(self) -> tuple[str, int]`
-* `get_model_name(self) -> str`
-* `get_lens_name(self) -> str`
-* `get_focal_length(self) -> dict`
-* `show(self) -> None`
-* `get_main_metadata(self) -> dict`
-* `contains_key(self, key, exact_match: bool = True)`
-* `contains_value(self, value, exact_match: bool = True)`
-* `copy(self) -> "Metadata"`
-* `@classmethod load_all_metadata(...) -> dict[str, "Metadata"]`
+* `__init__(self, file_path: str | Path)`: Constructor.
 
-### MetadataBatchProcess Class
+* `display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> str`: Displays metadata using Japanese keys.
 
-* `__init__(self, file_list: list[str], progress_func: Callable[[int], None] | None = None, max_workers: int = 40)`
-* `filter_by_custom_condition(self, condition_func: Callable[[Metadata], bool]) -> None`
-* `filter_by_metadata(self, keyword_list: list[str], exact_match: bool, all_keys_match: bool, search_by: Literal["either", "value", "key"]) -> None`
-* `prepare_rename(self, format_func: Callable[[Metadata], str]) -> None`
-* `rename_files(self) -> str`
-* `copy(self) -> "MetadataBatchProcess"`
+* `write_metadata_to_file(self, file_path: str = None) -> None`: Writes metadata to a file.
+
+* `get_metadata_dict(self) -> dict`: Returns the metadata as a dictionary.
+
+* `export_metadata(self, output_path: str = None, format: Literal["json", "csv"] = 'json', lang_ja_metadata: bool = False) -> None`: Exports metadata to a file.
+
+* `keys(self) -> list[str]`: Returns a list of metadata keys.
+
+* `values(self) -> list[Any]`: Returns a list of metadata values.
+
+* `items(self) -> list[tuple[str, Any]]`: Returns a list of key-value pairs for metadata.
+
+* `get_gps_coordinates(self) -> str`: Returns GPS coordinates.
+
+* `export_gps_to_google_maps(self) -> str`: Converts GPS information to a Google Maps URL.
+
+* `get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+00:00') -> str`: Returns the capture date (customizable date format).
+
+* `get_image_dimensions(self) -> str`: Returns image dimensions.
+
+* `get_file_size(self) -> tuple[str, int]`: Returns the file size.
+
+* `get_model_name(self) -> str`: Returns the camera model name.
+
+* `get_lens_name(self) -> str`: Returns the lens name.
+
+* `get_focal_length(self) -> dict`: Returns focal length information.
+
+* `show(self) -> None`: Displays the file.
+
+* `get_main_metadata(self) -> dict`: Returns major metadata fields.
+
+* `contains_key(self, key, exact_match: bool = True)`: Checks whether the specified key exists.
+
+* `contains_value(self, value, exact_match: bool = True)`: Checks whether the specified value exists.
+
+* `copy(self) -> "Metadata"`: Copies the instance of the Metadata class.
+
+* `@classmethod def load_all_metadata(cls, file_path_list: list[str], progress_func: Callable[[int], None] | None = None, max_workers: int = 40) -> dict[str, "Metadata"]`: Efficiently loads metadata from multiple files in parallel.
+
+### photo_metadata.MetadataBatchProcess
+
+* `__init__(self, file_list: list[str], progress_func: Callable[[int], None] | None = None, max_workers: int = 40)`: Constructor.
+* `filter_by_custom_condition(self, condition_func: Callable[[Metadata], bool]) -> None`: Filters metadata using a custom condition function.
+* `filter_by_metadata(self, keyword_list: list[str], exact_match: bool, all_keys_match: bool, search_by: Literal["either", "value", "key"]) -> None`: Finds files containing specific values, keys, or either in their metadata.
+* `prepare_rename(self, format_func: Callable[[Metadata], str]) -> None`: Prepares files for renaming.
+* `rename_files(self) -> str`: Renames the files.
+* `copy(self) -> "MetadataBatchProcess"`: Copies the instance of the MetadataBatchProcess class.
+
 
 ---
+
 ### If you find this library useful, please consider giving it a ⭐ on GitHub!
 
 ---
@@ -553,8 +576,6 @@ if date == md.error_string:
 ### photo_metadata.Metadata
 
 - `__init__(self, file_path: str | Path)`: コンストラクタ
-
-
 - `display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> str`: メタデータを日本語のキーで表示できます
 - `write_metadata_to_file(self, file_path: str = None) -> None`: メタデータをファイルに書き込む
 - `get_metadata_dict(self) -> dict`: メタデータの辞書を取得します
