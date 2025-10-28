@@ -285,7 +285,7 @@ ExifTool is required. This library uses [ExifTool](https://exiftool.org/) as an 
 
 ---
 
-### About AI-assisted Code Generation
+## About AI-assisted Code Generation
 
 Some parts of the code in this repository were generated or assisted by AI tools such as ChatGPT and Gemini CLI.
 No generated content that cannot be used in open-source projects like LMArena is included.
@@ -613,7 +613,7 @@ exiftoolが必ず必要です。
 
 ---
 
-# AIによるコード生成について
+## AIによるコード生成について
 
 本リポジトリの一部コードは ChatGPT, Gemini CLIなど用いて生成・補助しました。
 LMArena 等の OSS にできない可能性がある生成物は一切含まれていません。
