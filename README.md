@@ -195,7 +195,7 @@ from tkinter import filedialog
 from photo_metadata import MetadataBatchProcess, Metadata
 
 def date(md: Metadata):
-    date = md.get_date('%Y年%m月%d日-%H.%M.%S')
+    date = md.get_date('%Y-%m-%d_%H.%M.%S', default_time_zone="+00:00")
     if date == md.error_string:
         raise Exception("Not Found")
     return f"{date}-{MetadataBatchProcess.DUP_SEQ_1_DIGIT}"  # This is a duplicate sequence. It increments if duplicates exist, starting from 0. Must be included in the format.
@@ -245,7 +245,7 @@ mbp.rename_files()
 * `items(self) -> list[tuple[str, Any]]`
 * `get_gps_coordinates(self) -> str`
 * `export_gps_to_google_maps(self) -> str`
-* `get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+09:00') -> str`
+* `get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+00:00') -> str`
 * `get_image_dimensions(self) -> str`
 * `get_file_size(self) -> tuple[str, int]`
 * `get_model_name(self) -> str`
@@ -282,6 +282,13 @@ mbp.rename_files()
 ## Notes
 
 ExifTool is required. This library uses [ExifTool](https://exiftool.org/) as an external command to process image and video metadata.
+
+---
+
+### About AI-assisted Code Generation
+
+Some parts of the code in this repository were generated or assisted by AI tools such as ChatGPT and Gemini CLI.
+No generated content that cannot be used in open-source projects like LMArena is included.
 
 ---
 
@@ -479,7 +486,7 @@ from photo_metadata import MetadataBatchProcess, Metadata
 
 
 def date(md: Metadata):
-    date = md.get_date('%Y年%m月%d日-%H.%M.%S')
+    date = md.get_date('%Y年%m月%d日-%H.%M.%S', default_time_zone="+09:00")
     if date == md.error_string:
         raise Exception("Not Found")
     return f"{date}-{MetadataBatchProcess.DUP_SEQ_1_DIGIT}" これは重複連番です。重複したときに数字が増えます。基本は0になります。フォーマットに必ず含めてください。
@@ -557,7 +564,7 @@ if date == md.error_string:
 - `items(self) -> list[tuple[str, Any]]`: メタデータのキーと値のペアのリストを取得します
 - `get_gps_coordinates(self) -> str`: GPS座標を取得
 - `export_gps_to_google_maps(self) -> str`: GPS情報をGoogleマップのURLに変換
-- `get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+09:00') -> str`: 撮影日時を取得 (日付フォーマットを指定できます)
+- `get_date(self, format: str = '%Y:%m:%d %H:%M:%S', default_time_zone: str = '+00:00') -> str`: 撮影日時を取得 (日付フォーマットを指定できます)
 - `get_image_dimensions(self) -> str`: 画像の寸法を取得
 - `get_file_size(self) -> tuple[str, int]`: ファイルサイズを取得
 - `get_model_name(self) -> str`: カメラの機種名を取得
@@ -603,6 +610,13 @@ if date == md.error_string:
 exiftoolが必ず必要です。
 
 このライブラリは、画像やメタデータを処理する際に[ExifTool](https://exiftool.org/)を外部コマンドとして使用しています。
+
+---
+
+# AIによるコード生成について
+
+本リポジトリの一部コードは ChatGPT, Gemini CLIなど用いて生成・補助しました。
+LMArena 等の OSS にできない可能性がある生成物は一切含まれていません。
 
 ---
 
