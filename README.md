@@ -10,7 +10,7 @@ Python library to extract, read, modify, and write photo and video metadata (EXI
 ---
   
 
-> 📕 [README_Japanese](README_Japanese.md)
+> 📕 [README_Japanese](https://github.com/kingyo1205/photo-metadata/blob/main/README_Japanese.md)
 
 
 
@@ -333,3 +333,7 @@ If you use ExifTool, please make sure to comply with its license terms.
 | [tqdm](https://pypi.org/project/tqdm/)                             | MIT      |
 
 ---
+
+
+
+
