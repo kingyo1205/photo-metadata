@@ -16,9 +16,7 @@ Python library to extract, read, modify, and write photo and video metadata (EXI
 
 ---
 
-# Photo Metadata README (English)
-
-
+# Photo Metadata
 
 `photo-metadata` is a Python library for extracting, manipulating, and writing metadata from photo and video files. It uses ExifTool as a backend and supports a wide range of image and video formats. Full support for Japanese tags is also provided.
 

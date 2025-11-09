@@ -1,4 +1,4 @@
-# Photo Metadata README 日本語版
+# Photo Metadata
 
 `photo-metadata`は、写真や動画ファイルからメタデータを抽出、操作、書き込みを行うためのPythonライブラリです。exiftoolをバックエンドで使用し、幅広い画像、動画フォーマットに対応しています。日本語タグのサポートも特徴です。
 
