@@ -2,23 +2,19 @@
 
 Python library to extract, read, modify, and write photo and video metadata (EXIF, IPTC, XMP) using ExifTool. Supports JPEG, RAW, and video files. 
 
-
 ---
 
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/photo-metadata?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/photo-metadata)  
 
 ---
   
-
 > 📕 [README_Japanese](https://github.com/kingyo1205/photo-metadata/blob/main/README_Japanese.md)
-
-
 
 ---
 
-# Photo Metadata
-
 `photo-metadata` is a Python library for extracting, manipulating, and writing metadata from photo and video files. It uses ExifTool as a backend and supports a wide range of image and video formats. Full support for Japanese tags is also provided.
+
+---
 
 ## Key Features
 
