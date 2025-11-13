@@ -217,7 +217,7 @@ class Metadata:
         
 
         
-        command_exiftool_text = f'{str(_exiftool_path)} -G -json "{self.file_path}"'
+        command_exiftool_text = [str(_exiftool_path), "-G", "-json", str(self.file_path)]
         
         if sys.platform == "linux":
             result = subprocess.run(command_exiftool_text, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -397,7 +397,7 @@ class Metadata:
 
         try:
             # exiftoolを使用してメタデータを書き込む
-            command = f'{str(_exiftool_path)} -json="{temp_json.name}" -overwrite_original "{file_path}"'
+            command = [str(_exiftool_path), f"-json={temp_json.name}", "-overwrite_original", str(file_path)]
             if sys.platform == "linux":
                 result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             else:
