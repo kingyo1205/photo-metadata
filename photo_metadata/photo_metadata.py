@@ -1,6 +1,5 @@
-import datetime, subprocess,concurrent.futures, os, json, csv, glob, re, copy, collections, tempfile
-
-from typing import Callable, Literal, Any
+import datetime, subprocess,concurrent.futures, os, json, csv, glob, re, copy, tempfile
+from typing import Callable, Literal, Any, overload
 from tqdm import tqdm
 from uuid import uuid4
 import sys
@@ -14,10 +13,23 @@ from charset_normalizer import from_bytes
 _exiftool_path = Path(r"exiftool")
 _jp_tags_json_path = Path(os.path.join(os.path.dirname(__file__), r"exiftool_japanese_tag.json"))
 
-key_map: dict | None = None
 
 
-def _detect_encoding(data: bytes) -> str:
+try:
+    if not os.path.exists(_jp_tags_json_path):
+        raise FileNotFoundError(f"File Not Found: {_jp_tags_json_path}")
+    with open(_jp_tags_json_path, "r", encoding="utf-8") as f:
+        key_map: dict[str, str] = json.load(f)
+  
+except Exception as e:
+    print("Tag map loading failed:", e)
+    key_map: dict[str, str] = {}
+
+
+
+
+
+def _detect_encoding(data: bytes) -> str | None:
     
     if not data:
         return None
@@ -99,26 +111,7 @@ def get_jp_tags_json_path() -> Path:
     global _jp_tags_json_path
     return Path(_jp_tags_json_path)
 
-def read_jp_tags_json() -> None:
-    global key_map
-    if key_map is None:
-        try:
-            if not os.path.exists(_jp_tags_json_path):
-                raise FileNotFoundError(f"{_jp_tags_json_path} が存在しません")
-            with open(_jp_tags_json_path, "r", encoding="utf-8") as f:
-                key_map = json.load(f)
 
-                
-        except Exception as e:
-            print("タグマップ読み込みに失敗:", e)
-            key_map = {}
-
-    
-
-def get_key_map() -> dict:
-    global key_map
-    read_jp_tags_json()
-    return key_map
             
 
 
@@ -137,11 +130,10 @@ def key_en_to_ja(key_en: str) -> str:
         Japanese key.
 
     """
-    read_jp_tags_json()
 
     if ":" not in key_en:
         return key_map.get(key_en, key_en)
-    group, tag_name = key_en.split(':')
+    group, tag_name = key_en.split(':', 1)
     if tag_name in key_map:
         return f"{group}:{key_map[tag_name]}"
     else:
@@ -165,12 +157,11 @@ def key_ja_to_en(key_ja: str) -> str:
         English key.
 
     """
-    read_jp_tags_json()
 
     reversed_key_map = {v: k for k, v in key_map.items()}
     if ":" not in key_ja:
         return reversed_key_map.get(key_ja, key_ja)
-    group, tag_name = key_ja.split(':')
+    group, tag_name = key_ja.split(':', 1)
     if tag_name in reversed_key_map:
         return f"{group}:{reversed_key_map[tag_name]}"
     else:
@@ -241,11 +232,35 @@ class Metadata:
         if result.returncode != 0:
             raise RuntimeError(f"Failed to get metadata error: {stdout_text}\n{stderr_text}")
         
-        self.metadata: dict = json.loads(stdout_text)[0]
+        self.metadata: dict[str, Any] = json.loads(stdout_text)[0]
         self.metadata["SourceFile"] = str(file_path)
 
 
-    def display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> dict | str | None:
+    @overload
+    def display_japanese(
+        self,
+        return_type: Literal["dict"]
+    ) -> dict[str, Any]:
+        ...
+
+
+    @overload
+    def display_japanese(
+        self,
+        return_type: Literal["str"]
+    ) -> str:
+        ...
+
+
+    @overload
+    def display_japanese(
+        self,
+        return_type: Literal["print"] = "print"
+    ) -> None:
+        ...
+
+
+    def display_japanese(self, return_type: Literal["str", "print", "dict"] = "print") -> dict[str, Any] | str | None:
         """
         Display metadata in Japanese
 
@@ -259,8 +274,6 @@ class Metadata:
 
         """
 
-        read_jp_tags_json()
-
 
         m = {}
         for key, value in self.metadata.items():
@@ -270,7 +283,7 @@ class Metadata:
                     else:
                         m[key] = value
                     continue
-                group, tag_name = key.split(':')
+                _group, tag_name = key.split(':')
                 if tag_name in key_map:
                     
                     m[f"{key} ({key_map[tag_name]})"] = value
@@ -305,7 +318,7 @@ class Metadata:
         self.metadata[key] = value
 
     
-    def __delitem__(self, key: str):
+    def __delitem__(self, key: str) -> None:
         if key not in self.metadata:
             raise KeyError(f"not found: {key}")
         
@@ -319,18 +332,20 @@ class Metadata:
         return f"Metadata(file_path={self.file_path}, \nmetadata=\n{json.dumps(self.metadata, indent=4, ensure_ascii=False)})"
     
     def __eq__(self, other: "Metadata") -> bool:
+        if not isinstance(other, Metadata):
+            return NotImplemented
         metadata_copy = self.metadata.copy()
         other_metadata_copy = other.metadata.copy()
         
         del metadata_copy["SourceFile"]
         del other_metadata_copy["SourceFile"]
 
-        for key, value in metadata_copy.copy().items():
+        for key, _value in metadata_copy.copy().items():
 
             if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del metadata_copy[key]
         
-        for key, value in other_metadata_copy.copy().items():
+        for key, _value in other_metadata_copy.copy().items():
 
             if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del other_metadata_copy[key]
@@ -347,12 +362,12 @@ class Metadata:
         del metadata_copy["SourceFile"]
         del other_metadata_copy["SourceFile"]
 
-        for key, value in metadata_copy.copy().items():
+        for key, _value in metadata_copy.copy().items():
 
             if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del metadata_copy[key]
         
-        for key, value in other_metadata_copy.copy().items():
+        for key, _value in other_metadata_copy.copy().items():
 
             if key.split(":")[0] == "File" or key.split(":")[0] == "ExifTool":
                 del other_metadata_copy[key]
@@ -360,7 +375,7 @@ class Metadata:
         return not metadata_copy == other_metadata_copy
     
 
-    def write_metadata_to_file(self, file_path: str = None) -> None:
+    def write_metadata_to_file(self, file_path: Path | str | None = None) -> None:
         """
         Write metadata to file.
 
@@ -430,7 +445,7 @@ class Metadata:
 
         
 
-    def get_metadata_dict(self) -> dict:
+    def get_metadata_dict(self) -> dict[str, Any]:
         """
         Get metadata dictionary.
 
@@ -443,7 +458,7 @@ class Metadata:
         return self.metadata.copy()
 
 
-    def export_metadata(self, output_path: str = None, format: Literal["json", "csv"] = 'json', lang_ja_metadata: bool = False) -> None:
+    def export_metadata(self, output_path: str | None = None, format: Literal["json", "csv"] = 'json', lang_ja_metadata: bool = False) -> None:
         """
         Export metadata to file.
 
@@ -463,7 +478,7 @@ class Metadata:
         """
         
         
-        format = format.lower()
+        
         # エクスポートするメタデータを選択
         metadata_to_export = self.display_japanese(return_type="dict") if lang_ja_metadata else self.metadata.copy()
         
@@ -603,7 +618,7 @@ class Metadata:
             lens = self.error_string
         return lens
 
-    def get_focal_length(self) -> dict:
+    def get_focal_length(self) -> dict[str, Any]:
         focal_length_dict = {}
         if "EXIF:FocalLength" in self.metadata:
             focal_length = self.metadata["EXIF:FocalLength"]
@@ -627,7 +642,7 @@ class Metadata:
         return focal_length_dict
     
 
-    def get_main_metadata(self, get_date_format: str = '%Y:%m:%d %H:%M:%S', get_date_default_time_zone: str = '+00:00') -> dict:
+    def get_main_metadata(self, get_date_format: str = '%Y:%m:%d %H:%M:%S', get_date_default_time_zone: str = '+00:00') -> dict[str, Any]:
         """
         Get main metadata dictionary.
 
@@ -648,7 +663,7 @@ class Metadata:
 
         
         
-        md_dict = {}
+        md_dict: dict[str, Any] = {}
         md_dict["File_Path"] = str(self.file_path)
         md_dict["File_Name"] = os.path.basename(str(self.file_path))
         md_dict["Date"] = self.get_date(format=get_date_format, default_time_zone=get_date_default_time_zone)
@@ -694,7 +709,7 @@ class Metadata:
         """
         return copy.deepcopy(self)
     
-    def contains_key(self, key, exact_match: bool = True):
+    def contains_key(self, key: str, exact_match: bool = True) -> bool:
         """
         Check if a key exists in the metadata.
 
@@ -703,15 +718,13 @@ class Metadata:
             return key in self.metadata
         else:
             for k in self.metadata.keys():
-                if isinstance(k, str) and isinstance(key, str):
-                    if key.lower() in k.lower():
-                        return True
-                else:
-                    k == key
+                if key.lower() in k.lower():
+                    return True
+
             return False
 
     
-    def contains_value(self, value, exact_match: bool = True):
+    def contains_value(self, value: Any, exact_match: bool = True) -> bool:
         """
         Check if a value exists in the metadata.
 
@@ -724,7 +737,7 @@ class Metadata:
                     if value.lower() in v.lower():
                         return True
                 else:
-                    v == value
+                    return v == value
             return False
     
 
@@ -754,7 +767,7 @@ class Metadata:
             '2023:01:01 10:00:00'
         """
 
-        def load_one(file_path: str):
+        def load_one(file_path: str) -> tuple[str, Metadata]:
             return file_path, cls(file_path)
 
         total = len(file_path_list)
@@ -904,7 +917,6 @@ class MetadataBatchProcess:
 
         error_files = {}
         base_name_dict = {}
-        new_name_dict = {}
         name_dict = {}
 
         for file, md_obj in self.metadata_objects.items():
@@ -930,7 +942,7 @@ class MetadataBatchProcess:
         base_name_dict = dict(sorted(base_name_dict.items()))
         base_name_dict = add_duplicate_sequence_number(base_name_dict)
 
-        for for_count, (file_path, (base_name, ext, dup_num, number)) in enumerate(base_name_dict.items()):
+        for file_path, (base_name, ext, dup_num, number) in base_name_dict.items():
             count_is_file = 0
             new_name = f"{base_name}{ext}"
 

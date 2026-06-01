@@ -9,7 +9,7 @@ if not (sys.platform.startswith("linux") or sys.platform.startswith("win32")):
 
 setup(
     name="photo-metadata",
-    version="0.3.0",
+    version="0.3.1",
     packages=find_packages(),
     description="Python library to extract, read, modify, and write photo and video metadata (EXIF, IPTC, XMP) using ExifTool. Supports JPEG, RAW, and video files.",
     keywords="photo, image, metadata, exif, exiftool, iptc, xmp, video, camera, photography, raw, jpeg, picture, python, library, read, write, edit",
@@ -26,7 +26,7 @@ setup(
     ],
     license="MIT",
     license_files=["LICENSE"], 
-    python_requires=">=3.10",
+    python_requires=">=3.11",
     package_data={
         "photo_metadata": [
             "exiftool_japanese_tag.json",
