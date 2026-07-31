@@ -9,7 +9,7 @@ if not (sys.platform.startswith("linux") or sys.platform.startswith("win32")):
 
 setup(
     name="photo-metadata",
-    version="0.3.1",
+    version="0.3.2",
     packages=find_packages(),
     description="Python library to extract, read, modify, and write photo and video metadata (EXIF, IPTC, XMP) using ExifTool. Supports JPEG, RAW, and video files.",
     keywords="photo, image, metadata, exif, exiftool, iptc, xmp, video, camera, photography, raw, jpeg, picture, python, library, read, write, edit",
